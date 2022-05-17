@@ -47,6 +47,7 @@ public abstract class BaseDialog {
 
     protected boolean displayDays;
     protected boolean displayMinutes;
+    protected boolean displaySeconds;
     protected boolean displayHours;
     protected boolean displayDaysOfMonth;
     protected boolean displayMonth;

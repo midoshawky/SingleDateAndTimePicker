@@ -71,6 +71,8 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private final WheelHourPicker hoursPicker;
     @NonNull
     private final WheelAmPmPicker amPmPicker;
+    @NonNull
+    private final WheelMinutePicker secondsPicker;
 
     private List<WheelPicker> pickers = new ArrayList<>();
 
@@ -91,6 +93,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
     private boolean displayDaysOfMonth = false;
     private boolean displayDays = true;
     private boolean displayMinutes = true;
+    private boolean displaySeconds = true;
     private boolean displayHours = true;
 
     private boolean isAmPm;
@@ -116,6 +119,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         daysOfMonthPicker = findViewById(R.id.daysOfMonthPicker);
         daysPicker = findViewById(R.id.daysPicker);
         minutesPicker = findViewById(R.id.minutesPicker);
+        secondsPicker = findViewById(R.id.secondsPicker);
         hoursPicker = findViewById(R.id.hoursPicker);
         amPmPicker = findViewById(R.id.amPmPicker);
         dtSelector = findViewById(R.id.dtSelector);
@@ -123,6 +127,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         pickers.addAll(Arrays.asList(
                 daysPicker,
                 minutesPicker,
+                secondsPicker,
                 hoursPicker,
                 amPmPicker,
                 daysOfMonthPicker,
@@ -215,6 +220,21 @@ public class SingleDateAndTimePicker extends LinearLayout {
                     }
                 });
 
+        secondsPicker
+                .setOnMinuteChangedListener(new WheelMinutePicker.OnMinuteChangedListener() {
+                    @Override
+                    public void onMinuteChanged(WheelMinutePicker picker, int minutes) {
+                        updateListener();
+                        checkMinMaxDate(picker);
+                    }
+                })
+                .setOnFinishedLoopListener(new WheelMinutePicker.OnFinishedLoopListener() {
+                    @Override
+                    public void onFinishedLoop(WheelMinutePicker picker) {
+                        hoursPicker.scrollTo(hoursPicker.getCurrentItemPosition() + 1);
+                    }
+                });
+
         hoursPicker
                 .setOnFinishedLoopListener(new WheelHourPicker.FinishedLoopListener() {
                     @Override
@@ -280,6 +300,11 @@ public class SingleDateAndTimePicker extends LinearLayout {
     public void setDisplayMinutes(boolean displayMinutes) {
         this.displayMinutes = displayMinutes;
         minutesPicker.setVisibility(displayMinutes ? VISIBLE : GONE);
+    }
+
+    public void setDisplaySeconds(boolean displaySeconds) {
+        this.displaySeconds = displaySeconds;
+        secondsPicker.setVisibility(displaySeconds ? VISIBLE : GONE);
     }
 
     public void setDisplayHours(boolean displayHours) {
@@ -492,6 +517,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
             hour += PM_HOUR_ADDITION;
         }
         final int minute = minutesPicker.getCurrentMinute();
+        final int seconds = secondsPicker.getCurrentMinute();
 
         final Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(dateHelper.getTimeZone());
@@ -518,7 +544,7 @@ public class SingleDateAndTimePicker extends LinearLayout {
         }
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.SECOND, seconds);
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
     }

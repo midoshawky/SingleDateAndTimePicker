@@ -127,7 +127,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
 
     @OnClick(R.id.singleDateText)
     public void simpleDateClicked() {
-
+        Log.i("DatePick","Single Clicked");
         final Calendar calendar = Calendar.getInstance();
         final Date defaultDate = calendar.getTime();
 
@@ -140,9 +140,11 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 //.backgroundColor(Color.BLACK)
                 //.mainColor(Color.GREEN)
 
-                .displayHours(false)
-                .displayMinutes(false)
-                .displayDays(true)
+                .displayDays(false)
+                .displayAmPm(false)
+                .displayHours(true)
+                .displayMinutes(true)
+                .displaySeconds(true)
 
                 .displayListener(new SingleDateAndTimePickerDialog.DisplayListener() {
                     @Override
@@ -160,6 +162,7 @@ public class SingleDatePickerMainActivityWithDoublePicker extends AppCompatActiv
                 .listener(new SingleDateAndTimePickerDialog.Listener() {
                     @Override
                     public void onDateSelected(Date date) {
+                        Log.i("DatePick","Date :" + date);
                         singleDateText.setText(simpleDateOnlyFormat.format(date));
                     }
                 });

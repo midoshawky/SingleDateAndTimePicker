@@ -183,6 +183,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
         picker.setDisplayMonths(displayMonth);
         picker.setDisplayDaysOfMonth(displayDaysOfMonth);
         picker.setDisplayMinutes(displayMinutes);
+        picker.setDisplaySeconds(displaySeconds);
         picker.setDisplayHours(displayHours);
     }
 
@@ -242,6 +243,12 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
     public SingleDateAndTimePickerDialog setDefaultDate(Date defaultDate) {
         this.defaultDate = defaultDate;
+        return this;
+    }
+
+
+    public SingleDateAndTimePickerDialog setDisplaySeconds(boolean displaySeconds) {
+        this.displaySeconds = displaySeconds;
         return this;
     }
 
@@ -366,6 +373,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
 
         private boolean displayDays = true;
         private boolean displayMinutes = true;
+        private boolean displaySeconds = true;
         private boolean displayHours = true;
         private boolean displayMonth = false;
         private boolean displayDaysOfMonth = false;
@@ -460,6 +468,11 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
             this.displayMinutes = displayMinutes;
             return this;
         }
+        public Builder displaySeconds(boolean displaySeconds) {
+            this.displaySeconds = displaySeconds;
+            return this;
+        }
+
 
         public Builder displayHours(boolean displayHours) {
             this.displayHours = displayHours;
@@ -558,6 +571,7 @@ public class SingleDateAndTimePickerDialog extends BaseDialog {
                     .setMaxDateRange(maxDate)
                     .setMinDateRange(minDate)
                     .setDefaultDate(defaultDate)
+                    .setDisplaySeconds(displaySeconds)
                     .setDisplayHours(displayHours)
                     .setDisplayMonth(displayMonth)
                     .setDisplayYears(displayYears)
